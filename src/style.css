@@ -1,0 +1,117 @@
+* {
+    margin:0px;
+}
+
+.content, .sidebar, .toDo, .header, .form, .formTop, .formBottom, .title, .dueDate, .priority {
+    border: 1px solid black;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    height: 10vh;
+    width: 100vw;
+    position: fixed;
+
+}
+
+.body {
+    display: flex;
+    height:100vh;
+    margin-top: 10vh;
+
+}
+
+.sidebar {
+    height:100vh;
+    width: 20vw;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+   display: flex;
+   margin-left: 20vw;
+   flex: 1;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+
+}
+
+.toDo {
+    width: 800px;
+    height:60px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    height: 30vh;
+    width: 50vw;
+}
+
+.backgroundFade {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    position:fixed;
+    height:100vh;
+    width:100vw;
+    background-color:rgba(0,0,0,0.6);
+}
+
+.formTop {
+    display: flex;
+    flex-grow: 1;
+    gap:8px;
+}
+
+.title {
+    flex:6;
+}
+
+.priority {
+    flex: 1;
+}
+
+.dueDate {
+    flex: 2;
+}
+
+.formBottom {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 12;
+    gap:8px;
+}
+
+.description {
+    flex: 6;
+}
+
+
+.submit {
+    height: 20px;
+    width: 100px;
+    flex: 1;
+    align-self: flex-end;
+}
+
+.addToDo {
+    position: fixed;
+    height: 60px;
+    width: 60px;
+    left:92vw;
+    top:92vh;
+    
+}
