@@ -1,15 +1,15 @@
 * {
-    margin:0px;
+    margin:0;
+    padding: 0;
 }
 
-.content, .sidebar, .toDo, .header, .form, .formTop, .formBottom, .title, .dueDate, .priority {
+.content, .sidebar, .toDo, .header, .form, .formTop, .toDoContainer, .formBottom, .title, .dueDate, .priority {
     border: 1px solid black;
 }
 
 body {
     display: flex;
     flex-direction: column;
-    height: 100vh;
 }
 
 .header {
@@ -19,33 +19,38 @@ body {
 
 }
 
-.body {
-    display: flex;
-    height:100vh;
-    margin-top: 10vh;
-
-}
 
 .sidebar {
     height:100vh;
-    width: 20vw;
+    width: 13vw;
     position: fixed;
     display: flex;
     flex-direction: column;
+    margin-top: 10vh;
 }
 
+/* To do stuff*/
 .content {
    display: flex;
-   margin-left: 20vw;
-   flex: 1;
    flex-direction: column;
-   justify-content: center;
+   
    align-items: center;
+   min-height: 100vh;
+   margin-top: 10vh;
+   margin-left: 13vw;
 
 }
 
+.toDoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 400px;
+    width: 60%;
+    margin-top: 20vh;
+    flex: 1;
+}
 .toDo {
-    width: 800px;
+    
     height:60px;
     display: flex;
     gap: 20px;
@@ -53,6 +58,7 @@ body {
     flex-wrap: wrap;
 }
 
+/* Form stuff */
 .form {
     display: flex;
     flex-direction: column;

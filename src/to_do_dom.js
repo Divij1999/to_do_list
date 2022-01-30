@@ -6,6 +6,7 @@ const createForm =(() => {
         const form = document.createElement("div");
         const top = document.createElement("div");
         const title = document.createElement("input");
+        title.setAttribute("maxlength", "35");
 
         const priority = document.createElement("select");
         const low=document.createElement("option");
@@ -59,7 +60,8 @@ const createForm =(() => {
         
         div.appendChild(form);
         const body = document.querySelector("body");
-        body.appendChild(div);
+        const content = document.querySelector(".content");
+        body.insertBefore(div, content);
         return div;
     };
 
@@ -86,8 +88,6 @@ const createToDo = (() => {
         const dueDate = document.createElement("div");
         const priority = document.createElement("div");
         const options = document.createElement("div");
-        const editToDo = document.createElement("button");
-        editToDo.innerText="Edit";
         const deleteToDo = document.createElement("button");
         deleteToDo.innerText="Delete";
 
@@ -97,10 +97,9 @@ const createToDo = (() => {
         dueDate.classList.add("toDoDueDate");
         priority.classList.add("toDoPriority");
         options.classList.add("toDoOptions");
-        editToDo.classList.add("editToDo");
         deleteToDo.classList.add("deleteToDo");
     
-        options.appendChild(editToDo);
+       
         options.appendChild(deleteToDo);
     
         toDo.appendChild(completed);
@@ -111,8 +110,8 @@ const createToDo = (() => {
 
         completed.checked=complete;
         title.innerText=toDoTitle;
-        dueDate.innerText=toDoDueDate;
-        priority.innerText=toDoPriority;
+        dueDate.innerText=`Due Date: ${toDoDueDate}`;
+        priority.innerText=`Priority: ${toDoPriority}`;
 
         return toDo;
     };
