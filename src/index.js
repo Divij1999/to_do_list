@@ -10,9 +10,20 @@ const formLogic = (() => {
         const sumbitFormDetails=document.querySelector(".submit");
         sumbitFormDetails.addEventListener("click", (e) => {
 
-            toDoLogic.displayToDo(e); 
-            createForm.removeForm(form);
+            if(form.titleInput.value===""){
+                
+                createForm.promptUserForTitle(form.titleInput);
+            }
+            else {
+                
+                toDoLogic.displayToDo(e); 
+                createForm.removeForm(form.div);
+            }
+
         });
+
+        const cancelForm = document.querySelector(".cancelForm");
+        cancelForm.addEventListener("click", (e) => createForm.removeForm(form.div));
     };
     
      //Showing up the form
@@ -181,6 +192,9 @@ const manageProjects = (() => {
 
     //Changing the current object in use.
     const setCurrentProject = (e) => {
+
+        const disableAddToDoBtn = document.querySelector(".addToDo");
+        disableAddToDoBtn.disabled = false;
        
         const previouslyActiveProject = document.querySelector(`.${nameOfCurrentProject}`);
         previouslyActiveProject.classList.remove("currentProject");
@@ -300,6 +314,9 @@ const filteringLogic = (() => {
 
     
     const filterThreeDays = () => {
+
+        const disableAddToDoBtn = document.querySelector(".addToDo");
+        disableAddToDoBtn.disabled = true;
         const requiredDate = add(new Date(), {
             days: 3,
         });
@@ -324,6 +341,9 @@ const filteringLogic = (() => {
     };
     
     const filterSevenDays = () => {
+
+        const disableAddToDoBtn = document.querySelector(".addToDo");
+        disableAddToDoBtn.disabled = true;
         const requiredDate = add(new Date(), {
             days: 7,
         });

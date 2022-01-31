@@ -4,11 +4,29 @@ const createForm =(() => {
     const displayForm= () => {
 
         const form = document.createElement("div");
-        const top = document.createElement("div");
-        const title = document.createElement("input");
-        title.setAttribute("maxlength", "35");
+        const headerForCancel = document.createElement("div");
+        headerForCancel.setAttribute("style", "display: flex; justify-content: flex-end; align-items: center;");
+        const cancelForm = document.createElement("button");
+        cancelForm.innerText = "X";
+        cancelForm.classList.add("cancelForm");
+        headerForCancel.appendChild(cancelForm);
 
-        const priority = document.createElement("select");
+        const top = document.createElement("div");
+        const titleWrapper = document.createElement("div");
+        titleWrapper.setAttribute("style", "display: flex;");
+        const titleName = document.createElement("div");
+        titleName.setAttribute("style", "align-self: center;");
+        titleName.innerText = "Title:";
+        const titleInput = document.createElement("input");
+        titleInput.setAttribute("maxlength", "35");
+
+        titleWrapper.appendChild(titleName);
+        titleWrapper.appendChild(titleInput);
+        
+        const priorityName = document.createElement("div");
+        priorityName.setAttribute("style", "align-self: center;");
+        priorityName.innerText = "Priority:";
+        const priorityList = document.createElement("select");
         const low=document.createElement("option");
         low.innerText= "Low";
         low.setAttribute("value", "Low");
@@ -21,13 +39,25 @@ const createForm =(() => {
         high.innerText= "High";
         high.setAttribute("value", "High");
 
-        priority.appendChild(low);
-        priority.appendChild(medium);
-        priority.appendChild(high);
+        priorityList.appendChild(low);
+        priorityList.appendChild(medium);
+        priorityList.appendChild(high);
 
+        const priorityWrapper = document.createElement("div");
+        priorityWrapper.setAttribute("style", "display:flex;");
+        priorityWrapper.appendChild(priorityName);
+        priorityWrapper.appendChild(priorityList);
 
+        const dueDateName = document.createElement("div");
+        dueDateName.innerText = "Due Date:";
+        dueDateName.setAttribute("style", "align-self: center;");
         const dueDate = document.createElement("input");
         dueDate.setAttribute("type", "date");
+
+        const dueDateWrapper = document.createElement("div");
+        dueDateWrapper.setAttribute("style", "display:flex;");
+        dueDateWrapper.appendChild(dueDateName);
+        dueDateWrapper.appendChild(dueDate);
 
         const bottom = document.createElement("div");
         const description = document.createElement("textarea");
@@ -37,21 +67,22 @@ const createForm =(() => {
     
         form.classList.add("form");
         top.classList.add("formTop");
-        title.classList.add("title");
+        titleInput.classList.add("title");
         dueDate.classList.add("dueDate");
         description.classList.add("description");
         bottom.classList.add("formBottom");
-        priority.classList.add("priority");
+        priorityList.classList.add("priority");
         submitInfo.classList.add("submit");
 
     
-        top.appendChild(title);
-        top.appendChild(dueDate);
-        top.appendChild(priority);
+        top.appendChild(titleWrapper);
+        top.appendChild(dueDateWrapper);
+        top.appendChild(priorityWrapper);
        
         bottom.appendChild(description);
         bottom.appendChild(submitInfo);
     
+        form.appendChild(headerForCancel);
         form.appendChild(top);
         form.appendChild(bottom);
     
@@ -62,7 +93,17 @@ const createForm =(() => {
         const body = document.querySelector("body");
         const content = document.querySelector(".content");
         body.insertBefore(div, content);
-        return div;
+        return {
+            div,
+            titleInput,
+        };
+    };
+
+    const promptUserForTitle = (title) => {
+    
+        title.setAttribute("placeholder", "Please enter title name");
+        title.setAttribute("style", "border: 2px solid red;");
+        
     };
 
     const removeForm = (div) => {
@@ -74,6 +115,7 @@ const createForm =(() => {
     return {
         displayForm,
         removeForm,
+        promptUserForTitle,
     };
 })();
 
@@ -187,7 +229,7 @@ const projects_dom = (() => {
         newProjectCreated.classList.value = `${projectName.replaceAll(" ", "_")} project`;
        
         const removeProject = document.createElement("button");
-        removeProject.innerText= "x";
+        removeProject.innerText= "X";
         removeProject.classList.value = `${projectName.replaceAll(" ", "_")} removeProject`;
         
         projectWrapper.appendChild(newProjectCreated);
