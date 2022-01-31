@@ -1,6 +1,7 @@
 * {
     margin:0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 .content, .sidebar, .toDo, .header, .form, .formTop, .toDoContainer, .formBottom, .title, .dueDate, .priority {
@@ -16,10 +17,14 @@ body {
     height: 10vh;
     width: 100vw;
     position: fixed;
+    padding: 30px;
+    font-size: 3em;
+    display: flex;
+    align-items: center;
 
 }
 
-
+/* Sidebar stuff */
 .sidebar {
     height:100vh;
     width: 13vw;
@@ -27,6 +32,90 @@ body {
     display: flex;
     flex-direction: column;
     margin-top: 10vh;
+    padding: 30px 15px;
+    gap: 100px;
+}
+
+/*Time filtering stuff*/
+.timeFilter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.time {
+    cursor: pointer;
+    font-size: 1.08em;
+    padding-left: 3px;
+}
+
+.filterHeading, .projectHeading {
+    font-size: 1.7em;
+}
+
+/*Projects stuff*/
+.projectTab {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.createNewProject {
+    width: 30px;
+    background-color: white;
+    font-size: 1.5em;
+    border: 0;
+    cursor: pointer;
+}
+
+/*Input bar that pops up after clicking createNewProject button*/
+.inputDiv {
+    display: flex;
+    gap: 10px;
+}
+
+.projectNameInput {
+    width: 80%;
+}
+
+.default {
+    flex-basis: 0; 
+}
+
+/*Wraps project name and remove project button together*/
+.projectWrapper {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.project {
+   cursor: pointer;
+   padding-left: 3px;
+   font-size: 1.08em;
+}
+
+.currentProject {
+    border: 1px solid green;
+}
+
+/*Hovering over project name shows the remove button which is otherwise hidden*/
+.project:hover + .removeProject {
+    display: inline;
+}
+
+
+.removeProject {
+    background-color: white;
+    border: 0;
+    width: 30px;
+    cursor: pointer;
+    display: none;
+    
 }
 
 /* To do stuff*/
@@ -118,6 +207,10 @@ body {
     height: 60px;
     width: 60px;
     left:92vw;
-    top:92vh;
-    
+    top:88vh;
+    border-radius: 50%;
+    background-color: lightskyblue;
+    border: 1px solid lightskyblue;
+    color: white;
+    font-size: 2.6em;
 }

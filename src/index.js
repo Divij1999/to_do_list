@@ -165,11 +165,14 @@ const manageProjects = (() => {
 
         projects[projectName] = [];
        
-        const deleteProject = document.querySelector(".removeProject");
+        const deleteProject = document.querySelector(`button.${projectName}`);
         deleteProject.addEventListener("click", (e) => {
 
             removeProject(e);
-            removePreviousToDos(e);
+
+            //Chcking if the user is looking at the same project or another one. If they are similar only then to-dos will be removed.
+            if(e.target.classList[0]===nameOfCurrentProject)
+                removePreviousToDos(e);
         });
         console.log(projects);
 
@@ -178,9 +181,17 @@ const manageProjects = (() => {
 
     //Changing the current object in use.
     const setCurrentProject = (e) => {
-
+       
+        const previouslyActiveProject = document.querySelector(`.${nameOfCurrentProject}`);
+        previouslyActiveProject.classList.remove("currentProject");
+    
         nameOfCurrentProject= e.target.classList[0];
         currentProject = projects[nameOfCurrentProject];
+       
+        const currentlyActiveProject = document.querySelector(`.${nameOfCurrentProject}`);
+        currentlyActiveProject.classList.add("currentProject");
+
+       
         console.log(currentProject);
         console.log(nameOfCurrentProject);
 
@@ -207,6 +218,7 @@ const manageProjects = (() => {
         } );
        
     };
+
  
     //Updating the projects object after every To-Do is added.
     const updateProject = () => {
@@ -220,7 +232,7 @@ const manageProjects = (() => {
 
     const removeProject = (e) => {
         e.target.parentNode.remove();
-        delete projects[e.target.parentNode.classList[0]];
+        delete projects[e.target.classList[0]];
         currentProject=projects.Default;
         console.log(projects);
     };
@@ -233,7 +245,8 @@ const manageProjects = (() => {
     
     const createNewProject = document.querySelector(".createNewProject");
     createNewProject.addEventListener("click", (e) => {
-
+        
+        createNewProject.disabled= true;
         projects_dom.getProjectName(e);
         const submitProjectName = document.querySelector(".submitProjectName");
 
@@ -245,7 +258,7 @@ const manageProjects = (() => {
                 createProjects(e);
                 projects_dom.removeInputDiv(e);
             }
-        
+            createNewProject.disabled = false;
         });
     
     });

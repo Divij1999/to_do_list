@@ -136,16 +136,17 @@ const createToDo = (() => {
 const projects_dom = (() => {
 
     const div = document.createElement("div");
-    div.style.display= "flex";
+    div.setAttribute("style", "display: flex; width: 90%; align-items: center; justify-content: space-between;")
     const projectHeading = document.createElement("div");
     projectHeading.innerText = "Projects";
+    projectHeading.classList.add("projectHeading");
     const createNewProject = document.createElement("button");
     createNewProject.innerText = "+";
     createNewProject.classList.add("createNewProject");
 
     const defaultProject = document.createElement("div");
     defaultProject.innerText = "Default";
-    defaultProject.classList.value = "Default project";
+    defaultProject.classList.value = "Default currentProject project";
 
     div.appendChild(projectHeading);
     div.appendChild(createNewProject);
@@ -155,7 +156,7 @@ const projects_dom = (() => {
     projectsTab.appendChild(defaultProject);
 
     
-    const getProjectName = () => {
+    const getProjectName = (e) => {
 
         const projectNameInput = document.createElement("input");
         projectNameInput.classList.add("projectNameInput");
@@ -171,7 +172,7 @@ const projects_dom = (() => {
         inputDiv.appendChild(projectNameInput);
         inputDiv.appendChild(submitProjectName);
 
-        div.appendChild(inputDiv);
+        projectsTab.insertBefore(inputDiv, defaultProject);
         
       
     };
@@ -187,7 +188,7 @@ const projects_dom = (() => {
        
         const removeProject = document.createElement("button");
         removeProject.innerText= "x";
-        removeProject.classList.add("removeProject");
+        removeProject.classList.value = `${projectName.replaceAll(" ", "_")} removeProject`;
         
         projectWrapper.appendChild(newProjectCreated);
         projectWrapper.appendChild(removeProject);
@@ -214,6 +215,7 @@ const timeFiltering = (() => {
 
     const heading = document.createElement("div");
     heading.innerText = "Filter";
+    heading.classList.add("filterHeading");
 
     const nextThreeDays = document.createElement("div");
     nextThreeDays.innerText = "Next 3 days";
@@ -223,15 +225,15 @@ const timeFiltering = (() => {
     nextSevenDays.innerText = "Next 7 days";
     nextSevenDays.classList.value = "nextSevenDays time";
 
+    const timeFiltering = document.querySelector(".timeFilter");
+    
+    timeFiltering.appendChild(heading);
+    timeFiltering.appendChild(nextThreeDays);
+    timeFiltering.appendChild(nextSevenDays);
 
-    const timeTab = document.createElement("div");
-    timeTab.appendChild(heading);
-    timeTab.appendChild(nextThreeDays);
-    timeTab.appendChild(nextSevenDays);
 
-
-    const sideBar = document.querySelector(".timeFilter");
-    sideBar.appendChild(timeTab);
+   
+   
 
     const displayFilteredToDos = (name, title, dueDate) => {
 
