@@ -5,7 +5,7 @@ const createForm =(() => {
 
         const form = document.createElement("div");
         const headerForCancel = document.createElement("div");
-        headerForCancel.setAttribute("style", "display: flex; justify-content: flex-end; align-items: center;");
+        headerForCancel.setAttribute("style", "display: flex; justify-content: flex-end; align-items: center; padding:10px;");
         const cancelForm = document.createElement("button");
         cancelForm.innerText = "X";
         cancelForm.classList.add("cancelForm");
@@ -16,16 +16,16 @@ const createForm =(() => {
         titleWrapper.setAttribute("style", "display: flex;");
         const titleName = document.createElement("div");
         titleName.setAttribute("style", "align-self: center;");
-        titleName.innerText = "Title:";
+        titleName.innerText = "Title: ";
         const titleInput = document.createElement("input");
-        titleInput.setAttribute("maxlength", "35");
+        titleInput.setAttribute("maxlength", "30");
 
         titleWrapper.appendChild(titleName);
         titleWrapper.appendChild(titleInput);
         
         const priorityName = document.createElement("div");
         priorityName.setAttribute("style", "align-self: center;");
-        priorityName.innerText = "Priority:";
+        priorityName.innerText = "Priority: ";
         const priorityList = document.createElement("select");
         const low=document.createElement("option");
         low.innerText= "Low";
@@ -49,7 +49,7 @@ const createForm =(() => {
         priorityWrapper.appendChild(priorityList);
 
         const dueDateName = document.createElement("div");
-        dueDateName.innerText = "Due Date:";
+        dueDateName.innerText = "Due Date: ";
         dueDateName.setAttribute("style", "align-self: center;");
         const dueDate = document.createElement("input");
         dueDate.setAttribute("type", "date");
@@ -61,6 +61,7 @@ const createForm =(() => {
 
         const bottom = document.createElement("div");
         const description = document.createElement("textarea");
+        description.setAttribute("placeholder", "Enter description");
         const submitInfo= document.createElement("button");
         submitInfo.innerText = "Create";
 
@@ -134,6 +135,16 @@ const createToDo = (() => {
         deleteToDo.innerText="Delete";
 
         toDo.classList.add("toDo");
+        if(toDoPriority==="High"){
+            toDo.classList.add("high");
+        }
+        else if(toDoPriority==="Medium"){
+            toDo.classList.add("medium");
+        }
+        else {
+            toDo.classList.add("low");
+        }
+
         completed.classList.add("toDoCompleted");
         title.classList.add("toDoTitle");
         dueDate.classList.add("toDoDueDate");
@@ -155,20 +166,31 @@ const createToDo = (() => {
         dueDate.innerText=`Due Date: ${toDoDueDate}`;
         priority.innerText=`Priority: ${toDoPriority}`;
 
-        return toDo;
+        const toDoWrapper = document.createElement("div");
+        toDoWrapper.classList.add("toDoWrapper");
+        toDoWrapper.appendChild(toDo);
+
+        return toDoWrapper;
     };
 
     const showDescription = (e, descriptionText) => {
         
         const description = document.createElement("div");
         description.innerText= descriptionText;
+        description.classList.add("toDoDesc");
         e.target.parentNode.parentNode.insertBefore(description, e.target.parentNode.nextSibling);
 
+    };
+
+    const removeDescription = (e) => {
+
+        e.target.parentNode.parentNode.children[1].remove();
     };
 
     return {
         createToDo,
         showDescription,
+        removeDescription,
     };
 
 })();
@@ -187,7 +209,7 @@ const projects_dom = (() => {
     createNewProject.classList.add("createNewProject");
 
     const defaultProject = document.createElement("div");
-    defaultProject.innerText = "Default";
+    defaultProject.innerText = "> Default";
     defaultProject.classList.value = "Default currentProject project";
 
     div.appendChild(projectHeading);
@@ -202,6 +224,7 @@ const projects_dom = (() => {
 
         const projectNameInput = document.createElement("input");
         projectNameInput.classList.add("projectNameInput");
+        projectNameInput.setAttribute("maxlength", "10");
         projectNameInput.required = true;
 
         const submitProjectName = document.createElement("button");
@@ -209,6 +232,7 @@ const projects_dom = (() => {
         submitProjectName.classList.add("submitProjectName");
 
         const inputDiv = document.createElement("form");
+        inputDiv.setAttribute("onsubmit", "return false");
         inputDiv.classList.add("inputDiv");
 
         inputDiv.appendChild(projectNameInput);
@@ -219,13 +243,19 @@ const projects_dom = (() => {
       
     };
 
+    const promptUserForSimilarName = (projectInput) => {
+
+        projectInput.value = "Project name already exists";
+        projectInput.setAttribute("style", "border: 1px solid red;");
+    };
+
     const showProjectName = () =>{
         
         const projectWrapper = document.createElement("div");
         projectWrapper.classList.add("projectWrapper");
         const newProjectCreated = document.createElement("div");
         const projectName = document.querySelector(".projectNameInput").value;
-        newProjectCreated.innerText = projectName;
+        newProjectCreated.innerText = `> ${projectName}`;
         newProjectCreated.classList.value = `${projectName.replaceAll(" ", "_")} project`;
        
         const removeProject = document.createElement("button");
@@ -248,6 +278,7 @@ const projects_dom = (() => {
         getProjectName,
         showProjectName,
         removeInputDiv,
+        promptUserForSimilarName,
     }
 
 })();
@@ -280,13 +311,13 @@ const timeFiltering = (() => {
     const displayFilteredToDos = (name, title, dueDate) => {
 
         const toDo = document.createElement("div");
-        toDo.setAttribute("style", "display: flex; border: 1px solid black; gap: 10px;")
+        toDo.classList.add("filteredToDo");
         const projectName = document.createElement("div");
-        projectName.innerText = name;
+        projectName.innerText = `Project Name: ${name}`;
         const toDoTitle= document.createElement("div");
-        toDoTitle.innerText = title;
+        toDoTitle.innerText = `Title: ${title}`;
         const toDoDueDate = document.createElement("div");
-        toDoDueDate.innerText = dueDate;
+        toDoDueDate.innerText = `DueDate: ${dueDate}`;
        
         toDo.appendChild(projectName);
         toDo.appendChild(toDoTitle);

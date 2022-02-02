@@ -19,17 +19,37 @@ const formLogic = (() => {
                 toDoLogic.displayToDo(e); 
                 createForm.removeForm(form.div);
             }
+            toggleForm(e);
 
         });
 
         const cancelForm = document.querySelector(".cancelForm");
         cancelForm.addEventListener("click", (e) => createForm.removeForm(form.div));
     };
+
+    const toggleForm = (e) =>{
+        const addToDoBtn = document.querySelector(".addToDo");
+        if(e.target.classList[1]==="time" || e.target.classList.value==="addToDo"){
+            addToDoBtn.disabled=true;
+        }
+        else if(e.target.classList[1]==="project"){
+            addToDoBtn.disabled = false;
+        }
+        else if(e.target.classList.value==="submit"){
+            addToDoBtn.disabled=false;
+        }
+    };
     
      //Showing up the form
      const createNewToDo=document.querySelector(".addToDo");
-     createNewToDo.addEventListener("click", form);
-
+     createNewToDo.addEventListener("click", (e) => {
+         toggleForm(e);
+         form(e);
+     });
+    
+    return {
+        toggleForm,
+    }
 })();
 
 
@@ -67,11 +87,6 @@ const toDoLogic = (() => {
            return manageProjects.returnCurrentProject()[manageProjects.returnCurrentProject().length-1];
        };
    
-       const checkingCompletion = (e) => {
-           console.log(e);
-        
-       };
-   
     
     let values={};
 
@@ -104,7 +119,7 @@ const toDoLogic = (() => {
         //Resetting the temp object.
         values={};
 
-        addListeners(manageProjects.returnCurrentProject().length-1, toDo);
+        addListeners(toDo);
 
 
     };
@@ -112,38 +127,69 @@ const toDoLogic = (() => {
     const deleteToDo = (e) => {
 
         //Getting a reference to the To-Do to be deleted.
-        const toDo= e.target.parentNode.parentNode;
+        const toDoWrapper= e.target.parentNode.parentNode.parentNode;
         console.log(manageProjects.returnCurrentProject());
         
         //Changing the data-key attribute of all the To-Dos after the one being deleted in order to keep them in sync with the array.
-        for(let i= +toDo.getAttribute("data-key")+1; i<manageProjects.returnCurrentProject().length; i++){
-            const nextToDo = document.querySelector(`.toDo[data-key="${i}"]`);
+        for(let i= +toDoWrapper.getAttribute("data-key")+1; i<manageProjects.returnCurrentProject().length; i++){
+            const nextToDo = document.querySelector(`.toDoWrapper[data-key="${i}"]`);
             nextToDo.setAttribute("data-key", i-1);
         }
  
         //Deleting To-Do from the array.
-        manageProjects.returnCurrentProject().splice(+toDo.getAttribute("data-key"), 1);
+        manageProjects.returnCurrentProject().splice(+toDoWrapper.getAttribute("data-key"), 1);
         console.log(manageProjects.returnCurrentProject());
 
-        toDo.remove();
+        toDoWrapper.remove();
+    };
+    
+    const toggleDescription = (e) => {
+
+        const description = manageProjects.returnCurrentProject()[e.target.parentNode.parentNode.getAttribute("data-key")].description;
+        if(description!==""){
+            
+            if(e.target.parentNode.parentNode.children.length===1){
+               
+                createToDo.showDescription(e,  description);
+    
+            }
+            else {
+                createToDo.removeDescription(e);
+            }
+           
+
+        }
+       
     };
 
+    const checkingCompletion = (e) => {
 
-    const addListeners = (index, toDo) => {
+        const title = document.querySelector(".toDoTitle");
+        if(e.target.checked===true){
+            title.setAttribute("style", "text-decoration:line-through;");
+
+        }
+        else {
+            title.setAttribute("style", "text-decoration:none;");
+        }
+     
+    };
+
+    const addListeners = (toDo) => {
         const completion = toDo.querySelector(".toDoCompleted");
         completion.addEventListener("change", checkingCompletion);
         
         const showDescription = toDo.querySelector(".toDoTitle");
-        showDescription.addEventListener("click", (e) => {
-
-            createToDo.showDescription(e, manageProjects.returnCurrentProject()[index].description);
-        });
+        showDescription.addEventListener("click", toggleDescription);
 
         const removeToDo = toDo.querySelector(".deleteToDo");
         removeToDo.addEventListener("click", deleteToDo);
 
+
+
         toDo.addEventListener("change", manageProjects.updateProject);
     };
+
 
     return {
         displayToDo,
@@ -172,6 +218,7 @@ const manageProjects = (() => {
             setCurrentProject(e); 
             removePreviousToDos(e); 
             showCurrentToDos(e);
+            formLogic.toggleForm(e);
         });
 
         projects[projectName] = [];
@@ -192,9 +239,6 @@ const manageProjects = (() => {
 
     //Changing the current object in use.
     const setCurrentProject = (e) => {
-
-        const disableAddToDoBtn = document.querySelector(".addToDo");
-        disableAddToDoBtn.disabled = false;
        
         const previouslyActiveProject = document.querySelector(`.${nameOfCurrentProject}`);
         previouslyActiveProject.classList.remove("currentProject");
@@ -266,11 +310,14 @@ const manageProjects = (() => {
 
         submitProjectName.addEventListener("click", (e) =>{ 
             
-            const checkIfEmpty = document.querySelector(".projectNameInput");
-            if(checkIfEmpty.value!==""){
+            const projectInput = document.querySelector(".projectNameInput");
+            if(!projects.hasOwnProperty(projectInput.value)){
                 projects_dom.showProjectName(e); 
                 createProjects(e);
                 projects_dom.removeInputDiv(e);
+            }
+            else {
+                projects_dom.promptUserForSimilarName(projectInput);
             }
             createNewProject.disabled = false;
         });
@@ -283,9 +330,10 @@ const manageProjects = (() => {
         setCurrentProject(e); 
         removePreviousToDos(e); 
         showCurrentToDos(e);
+        formLogic.toggleForm(e);
     });
 
-    const returnProject = (i) => {
+    const returnProjectForFiltering = (i) => {
 
         const size =  Object.keys(projects).length;
         const projectName = Object.keys(projects)[i];
@@ -303,7 +351,7 @@ const manageProjects = (() => {
         returnCurrentProject,
         updateProject,
         removePreviousToDos,
-        returnProject,
+        returnProjectForFiltering,
         
     };
 
@@ -325,14 +373,14 @@ const filteringLogic = (() => {
         manageProjects.removePreviousToDos();
        
        
-        for(let i=0; i<manageProjects.returnProject().size; i++) {
+        for(let i=0; i<manageProjects.returnProjectForFiltering().size; i++) {
 
-            let toDo = manageProjects.returnProject(i).project;
+            let toDo = manageProjects.returnProjectForFiltering(i).project;
             toDo.forEach( toDo => {
                    
 
                 if(compareDesc(today, toDo.dueDate)===1 && compareDesc(toDo.dueDate, requiredDate)===1){
-                    timeFiltering.displayFilteredToDos(manageProjects.returnProject(i).projectName, toDo.title, format(new Date(toDo.dueDate), "dd-MM-yyyy"));
+                    timeFiltering.displayFilteredToDos(manageProjects.returnProjectForFiltering(i).projectName.replace("_", " "), toDo.title, format(new Date(toDo.dueDate), "dd-MM-yyyy"));
                 }
 
             });
@@ -352,14 +400,14 @@ const filteringLogic = (() => {
         manageProjects.removePreviousToDos();
        
         
-        for(let i=0; i<manageProjects.returnProject().size; i++) {
+        for(let i=0; i<manageProjects.returnProjectForFiltering().size; i++) {
 
-            let toDo = manageProjects.returnProject(i).project;
+            let toDo = manageProjects.returnProjectForFiltering(i).project;
             toDo.forEach( toDo => {
                    
 
                 if(compareDesc(today, toDo.dueDate)===1 && compareDesc(toDo.dueDate, requiredDate)===1){
-                    timeFiltering.displayFilteredToDos(manageProjects.returnProject(i).projectName, toDo.title, format(new Date(toDo.dueDate), "dd-MM-yyyy"));
+                    timeFiltering.displayFilteredToDos(manageProjects.returnProjectForFiltering(i).projectName, toDo.title, format(new Date(toDo.dueDate), "dd-MM-yyyy"));
                 }
 
             });
@@ -368,10 +416,16 @@ const filteringLogic = (() => {
 
     };
     const threeDays = document.querySelector(".nextThreeDays");
-    threeDays.addEventListener("click", filterThreeDays);
+    threeDays.addEventListener("click", (e) =>{ 
+        filterThreeDays(e);
+        formLogic.toggleForm(e);
+    });
 
     const sevenDays = document.querySelector(".nextSevenDays");
-    sevenDays.addEventListener("click", filterSevenDays);
+    sevenDays.addEventListener("click", (e) => {
+        filterSevenDays(e);
+        formLogic.toggleForm(e);
+    });
 
 
 

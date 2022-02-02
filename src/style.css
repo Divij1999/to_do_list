@@ -21,6 +21,7 @@ body {
     font-size: 3em;
     display: flex;
     align-items: center;
+    cursor: default;
 
 }
 
@@ -44,10 +45,29 @@ body {
 
 }
 
+.filterHeading {
+    cursor: default;
+}
+
 .time {
-    cursor: pointer;
+    cursor: default;
     font-size: 1.08em;
     padding-left: 3px;
+    flex-basis: 0;
+}
+
+.time:hover {
+    background-color: lightgrey;
+}
+
+.filteredToDo {
+    display: flex;
+    border: 1px solid black; 
+    justify-content: space-between;
+    height: 60px;
+    padding: 20px;
+    align-items: center;
+
 }
 
 .filterHeading, .projectHeading {
@@ -62,12 +82,19 @@ body {
     align-items: flex-start;
 }
 
+.projectHeading {
+    cursor: default;
+}
+
 .createNewProject {
     width: 30px;
     background-color: white;
     font-size: 1.5em;
     border: 0;
-    cursor: pointer;
+}
+
+.createNewProject:hover {
+    background-color: lightgrey;
 }
 
 /*Input bar that pops up after clicking createNewProject button*/
@@ -84,6 +111,10 @@ body {
     flex-basis: 0; 
 }
 
+.Default:hover {
+   background-color: lightgrey;
+}
+
 /*Wraps project name and remove project button together*/
 .projectWrapper {
     display: flex;
@@ -94,13 +125,15 @@ body {
 
 
 .project {
-   cursor: pointer;
+   cursor: default;
    padding-left: 3px;
    font-size: 1.08em;
+   color: rgb(61, 61, 61);
 }
 
 .currentProject {
-    border: 1px solid green;
+    color: black;
+    background-color: rgb(230, 230, 230);
 }
 
 /*Hovering over project wrapper shows the remove button which is otherwise hidden*/
@@ -108,21 +141,32 @@ body {
     display: inline;
 }
 
+.projectWrapper:hover {
+    color: black;
+    background-color: lightgrey;
+    
+}
+
+
 
 .removeProject {
-    background-color: white;
+    background-color: lightgrey;
     border: 0;
     width: 30px;
     cursor: pointer;
     display: none;
-    
+    font-weight: bold;
+    cursor: default;
+}
+
+.removeProject:hover {
+    background-color: lightgrey;
 }
 
 /* To do stuff*/
 .content {
    display: flex;
    flex-direction: column;
-   
    align-items: center;
    min-height: 100vh;
    margin-top: 10vh;
@@ -142,10 +186,58 @@ body {
     
     height:60px;
     display: flex;
-    gap: 20px;
-    align-items: center;
-    flex-wrap: wrap;
+    gap: 25px;
+    padding: 8px 20px;
+    
 }
+
+.toDoTitle {
+    width: 300px;
+}
+
+.toDoTitle:hover {
+    background-color: lightgrey;
+}
+
+.toDoPriority {
+    width: 150px;
+}
+
+.high {
+    border-left: 10px solid red;
+}
+
+.medium {
+    border-left: 10px solid yellow;
+}
+
+.low {
+    border-left: 10px solid green;
+}
+
+.deleteToDo {
+    background-color: white;
+    border: 0;
+    font-size: 1em;
+}
+
+.deleteToDo:hover {
+    background-color: lightgrey;
+}
+
+.toDoTitle, .toDoDueDate, .toDoPriority, .toDoOptions {
+    cursor: default;
+    border-left: 1px solid lightgrey;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.toDoDesc {
+    padding: 20px;
+    border: 1px solid black;
+}
+
 
 /* Form stuff */
 .form {
@@ -153,6 +245,7 @@ body {
     flex-direction: column;
     height: 30vh;
     width: 50vw;
+    background-color: white;
 }
 
 .backgroundFade {
@@ -168,7 +261,8 @@ body {
 .formTop {
     display: flex;
     flex-grow: 1;
-    gap:8px;
+    gap:10px;
+    padding: 10px;
 }
 
 .title {
@@ -187,7 +281,8 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 12;
-    gap:8px;
+    gap:10px;
+    padding: 10px;
 }
 
 .description {
@@ -199,7 +294,11 @@ body {
     height: 20px;
     width: 100px;
     flex: 1;
-    align-self: flex-end;
+    align-self: center;
+}
+
+.cancelForm:hover {
+    background-color: lightgrey;
 }
 
 .addToDo {
@@ -209,8 +308,13 @@ body {
     left:92vw;
     top:88vh;
     border-radius: 50%;
-    background-color: lightskyblue;
-    border: 1px solid lightskyblue;
+    background-color: rgb(52, 162, 230);
+    border: 1px solid rgb(52, 162, 230);
     color: white;
     font-size: 2.6em;
 }
+
+.addToDo:hover {
+    background-color: rgb(94, 176, 228);
+}
+
