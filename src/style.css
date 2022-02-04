@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-.content, .sidebar, .toDo, .header, .form, .formTop, .toDoContainer, .formBottom, .title, .dueDate, .priority {
-    border: 1px solid black;
-}
-
 body {
     display: flex;
     flex-direction: column;
@@ -22,6 +18,10 @@ body {
     display: flex;
     align-items: center;
     cursor: default;
+    background-color: rgb(67, 169, 233);
+    color: white;
+    border-bottom: 1px solid rgb(67, 169, 233);
+    font-weight: bold;
 
 }
 
@@ -35,6 +35,7 @@ body {
     margin-top: 10vh;
     padding: 30px 15px;
     gap: 100px;
+    border-right: 1px solid grey;
 }
 
 /*Time filtering stuff*/
@@ -177,18 +178,17 @@ body {
 .toDoContainer {
     display: flex;
     flex-direction: column;
-    gap: 400px;
+    gap: 30px;
     width: 60%;
     margin-top: 20vh;
     flex: 1;
 }
 .toDo {
-    
+    border: 1px solid grey;
     height:60px;
     display: flex;
     gap: 25px;
     padding: 8px 20px;
-    
 }
 
 .toDoTitle {
@@ -204,11 +204,11 @@ body {
 }
 
 .high {
-    border-left: 10px solid red;
+    border-left: 10px solid rgb(231, 18, 18);
 }
 
 .medium {
-    border-left: 10px solid yellow;
+    border-left: 10px solid rgb(236, 236, 0);
 }
 
 .low {
@@ -235,7 +235,7 @@ body {
 
 .toDoDesc {
     padding: 20px;
-    border: 1px solid black;
+    border: 1px solid grey;
 }
 
 
@@ -243,9 +243,9 @@ body {
 .form {
     display: flex;
     flex-direction: column;
-    height: 30vh;
-    width: 50vw;
-    background-color: white;
+    height: 40vh;
+    width: 40vw;
+    background-color: lightgrey;
 }
 
 .backgroundFade {
@@ -261,7 +261,7 @@ body {
 .formTop {
     display: flex;
     flex-grow: 1;
-    gap:10px;
+    justify-content: space-around;
     padding: 10px;
 }
 
@@ -298,7 +298,14 @@ body {
 }
 
 .cancelForm:hover {
+    background-color: grey;
+}
+
+.cancelForm {
+    width: 40px;
+    height: 40px;
     background-color: lightgrey;
+    border: 0;
 }
 
 .addToDo {

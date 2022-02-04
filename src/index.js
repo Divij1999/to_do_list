@@ -24,7 +24,10 @@ const formLogic = (() => {
         });
 
         const cancelForm = document.querySelector(".cancelForm");
-        cancelForm.addEventListener("click", (e) => createForm.removeForm(form.div));
+        cancelForm.addEventListener("click", (e) => {
+            createForm.removeForm(form.div);
+            toggleForm(e);
+        });
     };
 
     const toggleForm = (e) =>{
@@ -37,6 +40,9 @@ const formLogic = (() => {
         }
         else if(e.target.classList.value==="submit"){
             addToDoBtn.disabled=false;
+        }
+        else if(e.target.classList.value==="cancelForm"){
+            addToDoBtn.disabled= false;
         }
     };
     
@@ -76,9 +82,7 @@ const toDoLogic = (() => {
 
            const dueDate=document.querySelector(".dueDate");
            let formattedDate=format(new Date(dueDate.value), "dd-MM-yyyy");
-           console.log(new Date(dueDate.value));
            const priority= document.querySelector(".priority");
-           console.log(manageProjects.returnCurrentProject());
            manageProjects.returnCurrentProject().push(toDo(title.value, description.value, new Date(dueDate.value), priority.value));
            
            //Updating the projects object after adding a To-Do in the current project.
@@ -128,7 +132,6 @@ const toDoLogic = (() => {
 
         //Getting a reference to the To-Do to be deleted.
         const toDoWrapper= e.target.parentNode.parentNode.parentNode;
-        console.log(manageProjects.returnCurrentProject());
         
         //Changing the data-key attribute of all the To-Dos after the one being deleted in order to keep them in sync with the array.
         for(let i= +toDoWrapper.getAttribute("data-key")+1; i<manageProjects.returnCurrentProject().length; i++){
@@ -138,8 +141,6 @@ const toDoLogic = (() => {
  
         //Deleting To-Do from the array.
         manageProjects.returnCurrentProject().splice(+toDoWrapper.getAttribute("data-key"), 1);
-        console.log(manageProjects.returnCurrentProject());
-
         toDoWrapper.remove();
     };
     
@@ -232,7 +233,6 @@ const manageProjects = (() => {
             if(e.target.classList[0]===nameOfCurrentProject)
                 removePreviousToDos(e);
         });
-        console.log(projects);
 
        
     };
@@ -249,16 +249,12 @@ const manageProjects = (() => {
         const currentlyActiveProject = document.querySelector(`.${nameOfCurrentProject}`);
         currentlyActiveProject.classList.add("currentProject");
 
-       
-        console.log(currentProject);
-        console.log(nameOfCurrentProject);
-
     };
 
     const removePreviousToDos = () => {
 
         const content = document.querySelector(".toDoContainer");
-        console.log(content.children);
+
         for(let i=0; i<content.children.length;) {
             content.children[i].remove();
         }
@@ -282,17 +278,13 @@ const manageProjects = (() => {
     const updateProject = () => {
 
         projects[nameOfCurrentProject] = currentProject;
-        console.log(projects);
-        console.log(nameOfCurrentProject);
-        console.log(currentProject);
-
     };
 
     const removeProject = (e) => {
         e.target.parentNode.remove();
         delete projects[e.target.classList[0]];
         currentProject=projects.Default;
-        console.log(projects);
+        
     };
 
     const returnCurrentProject = () => {
