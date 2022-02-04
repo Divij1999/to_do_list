@@ -55,7 +55,7 @@ const formLogic = (() => {
     
     return {
         toggleForm,
-    }
+    };
 })();
 
 

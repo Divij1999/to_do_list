@@ -200,7 +200,7 @@ const createToDo = (() => {
 const projects_dom = (() => {
 
     const div = document.createElement("div");
-    div.setAttribute("style", "display: flex; width: 90%; align-items: center; justify-content: space-between;")
+    div.setAttribute("style", "display: flex; width: 90%; align-items: center; justify-content: space-between;");
     const projectHeading = document.createElement("div");
     projectHeading.innerText = "Projects";
     projectHeading.classList.add("projectHeading");
@@ -279,7 +279,7 @@ const projects_dom = (() => {
         showProjectName,
         removeInputDiv,
         promptUserForSimilarName,
-    }
+    };
 
 })();
 
