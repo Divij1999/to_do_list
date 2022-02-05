@@ -210,9 +210,17 @@ const manageProjects = (() => {
     let nameOfCurrentProject= "Default";
 
     //Getting the name of project entered by user and inserting it in projects object.
-    const createProjects = (e) => {
+    const createProjects = (startUp = false, name) => {
         
-        const projectName = document.querySelector(".projectNameInput").value.replaceAll(" ", "_");
+        let projectName;
+        if(startUp){
+            projectName = name;
+        }
+        else {
+            projectName = document.querySelector(".projectNameInput").value.replaceAll(" ", "_");
+            projects[projectName] = [];
+
+        }
         const project= document.querySelector(`.${projectName}`);
         project.addEventListener("click", (e) => {
 
@@ -221,8 +229,7 @@ const manageProjects = (() => {
             showCurrentToDos(e);
             formLogic.toggleForm(e);
         });
-
-        projects[projectName] = [];
+        console.log("ran");
        
         const deleteProject = document.querySelector(`button.${projectName}`);
         deleteProject.addEventListener("click", (e) => {
@@ -278,6 +285,11 @@ const manageProjects = (() => {
     const updateProject = () => {
 
         projects[nameOfCurrentProject] = currentProject;
+        const storeJSON = JSON.stringify(projects);
+        localStorage.setItem("toDoJSON", storeJSON);
+        const storedJSON = localStorage.getItem("toDoJSON");
+            let temp = JSON.parse(storedJSON);
+            console.table(temp);
     };
 
     const removeProject = (e) => {
@@ -287,12 +299,40 @@ const manageProjects = (() => {
         
     };
 
-    const returnCurrentProject = () => {
+    //This fuction runs when the website is first loaded.
+    const loadData = () => {
+        if(Storage.length!== "0"){
+            const storedJSON = localStorage.getItem("toDoJSON");
+            let temp = JSON.parse(storedJSON);
+            //Changing the due dates to Date objects.
+            for(let project in temp){
+                temp[project].forEach(toDo => {
+                    toDo.dueDate = new Date(toDo.dueDate);
+                })
+            }
+            projects = Object.assign({}, temp);
+            for(let project in projects) {
+                if(projects.hasOwnProperty(project)){
+                    if(project!== "Default"){
+                        projects_dom.showProjectName(true, project.replace("_", " "));
+                        createProjects(true, project);
 
-        return currentProject;
+                    }
+                  
+                }
+                
+
+            }
+
+        }
     };
 
     
+    const returnCurrentProject = () => {
+        return currentProject;
+    };
+    //Setting up an event to load toDos upon loading the website for the first time.
+    window.onload = () => loadData();
     const createNewProject = document.querySelector(".createNewProject");
     createNewProject.addEventListener("click", (e) => {
         
@@ -304,8 +344,8 @@ const manageProjects = (() => {
             
             const projectInput = document.querySelector(".projectNameInput");
             if(!projects.hasOwnProperty(projectInput.value)){
-                projects_dom.showProjectName(e); 
-                createProjects(e);
+                projects_dom.showProjectName(); 
+                createProjects();
                 projects_dom.removeInputDiv(e);
             }
             else {

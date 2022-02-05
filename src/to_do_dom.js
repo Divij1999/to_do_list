@@ -249,12 +249,19 @@ const projects_dom = (() => {
         projectInput.setAttribute("style", "border: 1px solid red;");
     };
 
-    const showProjectName = () =>{
+    const showProjectName = (startUp = false, name) =>{
         
         const projectWrapper = document.createElement("div");
         projectWrapper.classList.add("projectWrapper");
         const newProjectCreated = document.createElement("div");
-        const projectName = document.querySelector(".projectNameInput").value;
+        let projectName; 
+        if(startUp){
+            projectName = name;
+        }
+        else {
+            projectName = document.querySelector(".projectNameInput").value;
+        }
+        console.log(projectName);
         newProjectCreated.innerText = `> ${projectName}`;
         newProjectCreated.classList.value = `${projectName.replaceAll(" ", "_")} project`;
        
